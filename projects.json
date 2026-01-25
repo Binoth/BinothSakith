@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Eventrix",
+    "category": "Web App",
+    "techStack": ["MongoDB","Express.js ","React ","Node.js"],
+    "description": "Eventrix is a MERN stack web application for renting event equipment, featuring full CRUD capabilities for inventory management.",
+    "links": {
+      "live": "https://your-demo-link.com",
+      "code": "https://github.com/yourusername/booking-system"
+    }
+  },
+  {
+    "id": 2,
+    "title": "Dynamic CV Generator",
+    "category": "Theme Development",
+    "techStack": ["XML", "Blogger API", "CSS3"],
+    "description": "A highly optimized, custom theme that formats raw user data into professional resumes. Focus on SEO and minimal load times.",
+    "links": {
+      "live": "https://your-theme-demo.com",
+      "code": "https://github.com/yourusername/cv-theme"
+    }
+  },
+  {
+    "id": 3,
+    "title": "Automated Content Pipeline",
+    "category": "AI Automation",
+    "techStack": ["Python", "Gemini API", "Suno AI"],
+    "description": "An experimental workflow script using Generative AI to automatically generate video scripts, voiceovers, and background music for social media.",
+    "links": {
+      "live": "#",
+      "code": "https://github.com/yourusername/ai-pipeline"
+    }
+  },
+  {
+    "id": 4,
+    "title": "News Video Automation",
+    "category": "Content Creation",
+    "techStack": ["Video Editing", "AI Scripting", "YouTube"],
+    "description": "A system for rapidly producing political news coverage videos for YouTube and Facebook, utilizing AI for script generation and metadata optimization.",
+    "links": {
+      "live": "https://youtube.com/yourchannel",
+      "code": "#"
+    }
+  }
+]
