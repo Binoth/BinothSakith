@@ -1,6 +1,6 @@
 // 1. TYPEWRITER
 const textElement = document.getElementById('typewriter');
-const phrases = ["Software Engineer", "Angular Developer", "UI/UX Designer"];
+const phrases = ["Full Stack Developer", "UI UX Designer", "Mobile App Developer"];
 let phraseIndex = 0, charIndex = 0, isDeleting = false;
 
 function type() {
@@ -46,12 +46,23 @@ async function loadProjects() {
                 ? `<div class="project-links">${liveLink}${codeLink}</div>`
                 : '';
 
+            const imageClasses = ['project-image'];
+            if (project.imageClass) imageClasses.push(project.imageClass);
+
+            const imageHTML = project.image
+                ? `<div class="${imageClasses.join(' ')}"><img src="${project.image}" alt="${project.title} preview"></div>`
+                : '';
+
             container.innerHTML += `
-                <article class="card card-3d hidden" style="transition-delay: ${index * 100}ms">
-                    ${tagsHTML ? `<div class="project-tags">${tagsHTML}</div>` : ''}
-                    <h3 class="project-title">${project.title}</h3>
-                    <p class="project-description">${project.description}</p>
-                    ${linksHTML}
+                <article class="project-card card-3d hidden" style="transition-delay: ${index * 100}ms">
+                    ${imageHTML}
+                    <div class="project-content">
+                        ${project.category ? `<span class="project-category">${project.category}</span>` : ''}
+                        <h3 class="project-title">${project.title}</h3>
+                        ${tagsHTML ? `<div class="project-tags">${tagsHTML}</div>` : ''}
+                        <p class="project-description">${project.description}</p>
+                        ${linksHTML}
+                    </div>
                 </article>
             `;
         });
@@ -111,21 +122,25 @@ function initScrollSpy() {
         });
     };
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -55%',
-        threshold: 0.25
+    const getCurrentSectionId = () => {
+        const scrollPosition = window.scrollY + window.innerHeight * 0.35;
+        let currentId = `#${sections[0].id}`;
+
+        for (const section of sections) {
+            if (section.offsetTop <= scrollPosition) {
+                currentId = `#${section.id}`;
+            }
+        }
+
+        return currentId;
     };
 
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                activateLink(`#${entry.target.id}`);
-            }
-        });
-    }, observerOptions);
+    const handleScroll = () => {
+        activateLink(getCurrentSectionId());
+    };
 
-    sections.forEach(section => sectionObserver.observe(section));
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
