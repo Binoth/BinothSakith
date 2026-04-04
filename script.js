@@ -22,53 +22,96 @@ function type() {
 }
 
 // 2. FETCH PROJECTS
+let allProjects = [];
+
+function normalizeProjectCategory(category) {
+    const cleaned = String(category || '').toLowerCase().trim();
+
+    if (cleaned === 'app' || cleaned === 'mobile') return 'mobile';
+    if (cleaned === 'ui/ux' || cleaned === 'uiux' || cleaned === 'ux/ui') return 'uiux';
+    return 'web';
+}
+
+function setActiveProjectFilter(filter) {
+    const filterButtons = document.querySelectorAll('.project-filter-tab');
+    filterButtons.forEach(button => {
+        const isActive = button.dataset.filter === filter;
+        button.classList.toggle('active', isActive);
+        button.setAttribute('aria-selected', String(isActive));
+    });
+}
+
+function renderProjects(projects) {
+    const container = document.getElementById('project-grid');
+    container.innerHTML = '';
+
+    projects.forEach((project, index) => {
+        const tagsHTML = (project.techStack || [])
+            .map(tag => `<span class="project-tag">${tag}</span>`)
+            .join('');
+
+        const liveLink = project.links?.live && project.links.live !== '#'
+            ? `<a class="project-link primary" href="${project.links.live}" target="_blank" rel="noopener">Live Demo <span class="link-icon">↗</span></a>`
+            : '';
+
+        const codeLink = project.links?.code
+            ? `<a class="project-link" href="${project.links.code}" target="_blank" rel="noopener">View Code <span class="link-icon">⧉</span></a>`
+            : '';
+
+        const linksHTML = (liveLink || codeLink)
+            ? `<div class="project-links">${liveLink}${codeLink}</div>`
+            : '';
+
+        const imageClasses = ['project-image'];
+        if (project.imageClass) imageClasses.push(project.imageClass);
+
+        const imageHTML = project.image
+            ? `<div class="${imageClasses.join(' ')}"><img src="${project.image}" alt="${project.title} preview"></div>`
+            : '';
+
+        container.innerHTML += `
+            <article class="project-card card-3d hidden" style="transition-delay: ${index * 100}ms">
+                ${imageHTML}
+                <div class="project-content">
+                    ${project.category ? `<span class="project-category">${project.category}</span>` : ''}
+                    <h3 class="project-title">${project.title}</h3>
+                    ${tagsHTML ? `<div class="project-tags">${tagsHTML}</div>` : ''}
+                    <p class="project-description">${project.description}</p>
+                    ${linksHTML}
+                </div>
+            </article>
+        `;
+    });
+
+    initScrollReveal();
+    init3DTilt();
+}
+
+function filterProjects(filter) {
+    setActiveProjectFilter(filter);
+
+    const filteredProjects = filter === 'all'
+        ? allProjects
+        : allProjects.filter(project => normalizeProjectCategory(project.category) === filter);
+
+    renderProjects(filteredProjects);
+}
+
+function initProjectFilters() {
+    const filterButtons = document.querySelectorAll('.project-filter-tab');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterProjects(button.dataset.filter || 'all');
+        });
+    });
+}
+
 async function loadProjects() {
     try {
         const response = await fetch('projects.json');
-        const projects = await response.json();
-        const container = document.getElementById('project-grid');
-        container.innerHTML = '';
-
-        projects.forEach((project, index) => {
-            const tagsHTML = (project.techStack || [])
-                .map(tag => `<span class="project-tag">${tag}</span>`)
-                .join('');
-
-            const liveLink = project.links?.live && project.links.live !== "#"
-                ? `<a class="project-link primary" href="${project.links.live}" target="_blank" rel="noopener">Live Demo <span class="link-icon">↗</span></a>`
-                : '';
-
-            const codeLink = project.links?.code
-                ? `<a class="project-link" href="${project.links.code}" target="_blank" rel="noopener">View Code <span class="link-icon">⧉</span></a>`
-                : '';
-
-            const linksHTML = (liveLink || codeLink)
-                ? `<div class="project-links">${liveLink}${codeLink}</div>`
-                : '';
-
-            const imageClasses = ['project-image'];
-            if (project.imageClass) imageClasses.push(project.imageClass);
-
-            const imageHTML = project.image
-                ? `<div class="${imageClasses.join(' ')}"><img src="${project.image}" alt="${project.title} preview"></div>`
-                : '';
-
-            container.innerHTML += `
-                <article class="project-card card-3d hidden" style="transition-delay: ${index * 100}ms">
-                    ${imageHTML}
-                    <div class="project-content">
-                        ${project.category ? `<span class="project-category">${project.category}</span>` : ''}
-                        <h3 class="project-title">${project.title}</h3>
-                        ${tagsHTML ? `<div class="project-tags">${tagsHTML}</div>` : ''}
-                        <p class="project-description">${project.description}</p>
-                        ${linksHTML}
-                    </div>
-                </article>
-            `;
-        });
-        
-        initScrollReveal();
-        init3DTilt(); 
+        allProjects = await response.json();
+        filterProjects('all');
 
     } catch (error) { console.error('JSON Error:', error); }
 }
@@ -145,6 +188,7 @@ function initScrollSpy() {
 
 document.addEventListener('DOMContentLoaded', () => {
     type();
+    initProjectFilters();
     loadProjects();
     initScrollSpy();
 });
@@ -234,7 +278,7 @@ function animate() {
         for (let j = i; j < particles.length; j++) {
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const distance = Math.hypot(dx, dy);
 
             if (distance < config.linkDistance) {
                 // Calculate opacity based on distance (closer = brighter)

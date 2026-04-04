@@ -7,8 +7,8 @@
     "image": "src/eventrix.png",
     "description": "Eventrix is a MERN stack web application for renting event equipment, featuring full CRUD capabilities for inventory management.",
     "links": {
-      "live": "https://your-demo-link.com",
-      "code": "https://github.com/yourusername/booking-system"
+      "live": "https://6933f12e7e978a11171c8a93--jovial-flan-21f251.netlify.app/",
+      "code": "https://github.com/pushpikaishan/equiment-rental.git"
     }
   },
   {
@@ -19,45 +19,45 @@
     "image": "src/snapflix.png",
     "description": "SnapFlix is a simple and user-friendly movie booking website. It allows users to browse movies that are now showing or coming soon and book tickets easily.",
     "links": {
-      "live": "https://your-theme-demo.com",
-      "code": "https://github.com/yourusername/cv-theme"
+      "live": "https://drive.google.com/file/d/1kq0zK6YSfRG-BgMhSR7k8Q3Iyz8Oihb7/view",
+      "code": "https://github.com/supethum/snapflix.git"
     }
   },
   {
     "id": 3,
     "title": "Task Manager Web App",
-    "category": "web",
+    "category": "Web",
     "techStack": ["MongoDB","Express.js ","React ","Node.js"],
     "image": "src/Task%20manager.png",
     "description": "Engineered a secure task management dashboard featuring user authentication, dynamic CRUD operations, and personalized task filtering",
     "links": {
       "live": "#",
-      "code": "https://github.com/yourusername/ai-pipeline"
+      "code": "https://github.com/Binoth/Task-manager.git"
     }
   },
   {
     "id": 4,
     "title": "Portfolio Website",
-    "category": "web",
+    "category": "UI/UX",
     "techStack": ["HTML","CSS","JS","Json"],
     "image": "src/Portfolio.png",
     "description": "Designed a data-driven portfolio to showcase software engineering projects, dynamically loading content from a structured JSON file.",
     "links": {
       "live": "#",
-      "code": "https://github.com/yourusername/ai-pipeline"
+      "code": "https://github.com/Binoth/BinothSakith.git"
     }
   },
   {
     "id": 5,
     "title": "Fit Tracker App",
-    "category": "App",
+    "category": "Mobile",
     "techStack": ["Kotlin"],
     "image": "src/Fit%20Tracker%20App.png",
     "imageClass": "project-image--portrait",
     "description": "Developed a privacy centric wellness tool specifically designed for tracking daily habits, hydration, and emotional well-being.",
     "links": {
       "live": "#",
-      "code": "https://github.com/yourusername/ai-pipeline"
+      "code": "https://github.com/Binoth/Fit-Tracker-App.git"
     }
   }
 ]
